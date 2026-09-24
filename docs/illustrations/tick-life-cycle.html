@@ -1,0 +1,226 @@
+<title>Tick Life Cycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --bg: #eef1ea;
+    --paper: #f8faf5;
+    --ink: #1f2a22;
+    --muted: #5b6a5e;
+    --line: #c9d2c6;
+    --tick: #6b4a2f;
+    --scutum: #3a2718;
+    --blood: #8e1f2c;
+    --engorged: #7d8a96;
+    --host: #3d6b55;
+    --display: "Alegreya", Georgia, "Times New Roman", serif;
+    --body: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #151b17; --paper: #1d2520; --ink: #e4ebe3; --muted: #9aab9e; --line: #34423a;
+      --tick: #b88a60; --scutum: #e0c3a2; --blood: #e0606e; --engorged: #a6b3bf; --host: #7fbf9e;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #151b17; --paper: #1d2520; --ink: #e4ebe3; --muted: #9aab9e; --line: #34423a;
+    --tick: #b88a60; --scutum: #e0c3a2; --blood: #e0606e; --engorged: #a6b3bf; --host: #7fbf9e;
+  }
+  body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--body); padding: 32px 16px 48px; }
+  main { max-width: 980px; margin: 0 auto; display: grid; gap: 28px; }
+  h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.15; }
+  h1 { font-size: clamp(2rem, 5vw, 2.8rem); }
+  h2 { font-size: 1.4rem; }
+  .lede { max-width: 65ch; color: var(--muted); margin: 8px 0 0; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; color: var(--muted); font-weight: 700; }
+  figure { margin: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 12px; overflow-x: auto; }
+  figure svg { display: block; width: 100%; min-width: 640px; height: auto; }
+  figcaption { font-size: .85rem; color: var(--muted); padding: 8px 4px 0; }
+  svg text { font-family: var(--body); fill: var(--ink); }
+  svg .stage { font-family: var(--display); font-weight: 700; font-size: 20px; }
+  svg .note { font-size: 13px; fill: var(--muted); }
+  svg .num { font-family: var(--display); font-weight: 700; font-size: 14px; fill: var(--paper); }
+  svg .meal { font-size: 12.5px; fill: var(--blood); font-weight: 700; }
+  svg .hostlbl { font-size: 12.5px; fill: var(--host); font-weight: 700; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+  .src { font-size: .85rem; color: var(--muted); }
+  .src a { color: var(--host); }
+  .conf { font-size: .8rem; font-weight: 700; color: var(--muted); }
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Hard ticks · family Ixodidae</div>
+    <h1>The life cycle of a tick</h1>
+    <p class="lede">Most hard ticks pass through four stages: egg, larva, nymph and adult. Each active stage takes a single blood meal, then drops off the host to moult or lay eggs. Most species use a different host at each stage, so they are called three-host ticks.</p>
+  </header>
+
+  <figure>
+    <svg viewBox="0 0 900 640" role="img" aria-labelledby="cyc-t cyc-d">
+      <title id="cyc-t">Three-host tick life cycle</title>
+      <desc id="cyc-d">Eggs hatch into six-legged larvae, which feed on a small host and moult into eight-legged nymphs. Nymphs feed and moult into adults. Adults feed on a larger host and mate; the engorged female drops off, lays thousands of eggs and dies.</desc>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+        </marker>
+        <!-- legs: one side, mirrored for the other -->
+        <g id="legs3" fill="none" stroke="var(--tick)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M43,42 L29,32 L23,20"/><path d="M42,47 L25,43 L14,37"/><path d="M42,52 L25,56 L14,63"/>
+          <path d="M57,42 L71,32 L77,20"/><path d="M58,47 L75,43 L86,37"/><path d="M58,52 L75,56 L86,63"/>
+        </g>
+        <g id="leg4" fill="none" stroke="var(--tick)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M43,57 L30,68 L24,80"/><path d="M57,57 L70,68 L76,80"/>
+        </g>
+        <g id="head">
+          <path d="M46,38 L46,29 L50,25 L54,29 L54,38 z" fill="var(--scutum)"/>
+          <path d="M45,33 L43,26 M55,33 L57,26" stroke="var(--scutum)" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g id="larva"><use href="#legs3"/><use href="#head"/>
+          <ellipse cx="50" cy="54" rx="13" ry="16" fill="var(--tick)"/>
+          <path d="M40,44 Q50,36 60,44 Q58,54 50,56 Q42,54 40,44z" fill="var(--scutum)"/></g>
+        <g id="nymph"><use href="#legs3"/><use href="#leg4"/><use href="#head"/>
+          <ellipse cx="50" cy="54" rx="13" ry="16" fill="var(--tick)"/>
+          <path d="M40,44 Q50,36 60,44 Q58,54 50,56 Q42,54 40,44z" fill="var(--scutum)"/></g>
+        <g id="female"><use href="#legs3"/><use href="#leg4"/><use href="#head"/>
+          <ellipse cx="50" cy="55" rx="14" ry="18" fill="var(--tick)"/>
+          <path d="M40,44 Q50,36 60,44 Q58,54 50,56 Q42,54 40,44z" fill="var(--scutum)"/></g>
+        <g id="male"><use href="#legs3"/><use href="#leg4"/><use href="#head"/>
+          <ellipse cx="50" cy="54" rx="13" ry="16" fill="var(--scutum)"/></g>
+      </defs>
+
+      <!-- ring guide -->
+      <circle cx="450" cy="330" r="220" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 6"/>
+
+      <!-- arrows between stages -->
+      <path d="M560,92 Q650,120 680,185" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+      <path d="M690,400 Q670,480 590,520" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+      <path d="M480,592 Q360,610 305,540" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+      <path d="M248,352 Q245,305 262,278" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+      <path d="M305,160 Q330,112 388,100" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- 1 Eggs (top) -->
+      <g transform="translate(450,105)">
+        <g fill="var(--tick)" opacity=".85">
+          <circle cx="-14" cy="-6" r="5"/><circle cx="-4" cy="-10" r="5"/><circle cx="7" cy="-8" r="5"/><circle cx="16" cy="-2" r="5"/>
+          <circle cx="-10" cy="4" r="5"/><circle cx="1" cy="1" r="5"/><circle cx="12" cy="8" r="5"/><circle cx="-2" cy="12" r="5"/>
+        </g>
+        <circle cx="-62" cy="-40" r="12" fill="var(--ink)"/><text class="num" x="-62" y="-35" text-anchor="middle">1</text>
+        <text class="stage" x="-44" y="-34">Eggs</text>
+        <text class="note" x="0" y="40" text-anchor="middle">Laid in one mass on the ground or in leaf litter</text>
+        <text class="note" x="0" y="57" text-anchor="middle">Hatch after weeks (temperature-dependent)</text>
+      </g>
+
+      <!-- 2 Larva (right-top) -->
+      <g transform="translate(690,250)">
+        <use href="#larva" transform="translate(-38,-50) scale(.75)"/>
+        <circle cx="-40" cy="-62" r="12" fill="var(--ink)"/><text class="num" x="-40" y="-57" text-anchor="middle">2</text>
+        <text class="stage" x="-22" y="-56">Larva</text>
+        <text class="note" x="40" y="-18">6 legs · about the size</text>
+        <text class="note" x="40" y="-2">of a grain of sand</text>
+        <text class="meal" x="40" y="24">Blood meal 1</text>
+        <text class="hostlbl" x="40" y="40">Host 1: e.g. rodent, bird</text>
+        <text class="note" x="40" y="56">Drops off, moults</text>
+      </g>
+
+      <!-- 3 Nymph (right-bottom → bottom-right) -->
+      <g transform="translate(560,540)">
+        <use href="#nymph" transform="translate(-38,-40) scale(.85)"/>
+        <circle cx="-44" cy="-50" r="12" fill="var(--ink)"/><text class="num" x="-44" y="-45" text-anchor="middle">3</text>
+        <text class="stage" x="-26" y="-44">Nymph</text>
+        <text class="note" x="54" y="-6">8 legs · poppy-seed size</text>
+        <text class="meal" x="54" y="14">Blood meal 2</text>
+        <text class="hostlbl" x="54" y="30">Host 2: small–medium mammal</text>
+        <text class="note" x="54" y="46">Drops off, moults</text>
+      </g>
+
+      <!-- 4 Adults (left-bottom) -->
+      <g transform="translate(220,420)">
+        <use href="#female" transform="translate(-60,-40) scale(.95)"/>
+        <use href="#male" transform="translate(10,-24) scale(.75)"/>
+        <text class="note" x="-12" y="58" text-anchor="middle">♀</text>
+        <text class="note" x="48" y="58" text-anchor="middle">♂</text>
+        <circle cx="-70" cy="-52" r="12" fill="var(--ink)"/><text class="num" x="-70" y="-47" text-anchor="middle">4</text>
+        <text class="stage" x="-52" y="-46">Adults</text>
+        <text class="meal" x="-70" y="80">Blood meal 3 · mate on host</text>
+        <text class="hostlbl" x="-70" y="96">Host 3: larger mammal (deer, cattle, dog)</text>
+      </g>
+
+      <!-- 5 Engorged female lays eggs (left-top) -->
+      <g transform="translate(195,215)">
+        <g transform="translate(30,-61)">
+          <g fill="none" stroke="var(--tick)" stroke-width="2" stroke-linecap="round">
+            <path d="M34,26 L24,16"/><path d="M32,32 L18,28"/><path d="M32,40 L18,44"/><path d="M34,46 L24,56"/>
+            <path d="M66,26 L76,16"/><path d="M68,32 L82,28"/><path d="M68,40 L82,44"/><path d="M66,46 L76,56"/>
+          </g>
+          <ellipse cx="50" cy="56" rx="26" ry="32" fill="var(--engorged)"/>
+          <path d="M46,24 L46,16 L50,12 L54,16 L54,24 z" fill="var(--scutum)"/>
+          <path d="M42,30 Q50,24 58,30 Q56,36 50,37 Q44,36 42,30z" fill="var(--scutum)"/>
+        </g>
+        <g fill="var(--tick)" opacity=".85" transform="translate(125,20)">
+          <circle cx="-8" cy="0" r="3.5"/><circle cx="0" cy="-3" r="3.5"/><circle cx="8" cy="0" r="3.5"/><circle cx="-4" cy="6" r="3.5"/><circle cx="4" cy="6" r="3.5"/>
+        </g>
+        <circle cx="-150" cy="-40" r="12" fill="var(--ink)"/><text class="num" x="-150" y="-35" text-anchor="middle">5</text>
+        <text class="stage" x="-132" y="-34">Egg-laying</text>
+        <text class="note" x="-150" y="-10">Engorged female drops off,</text>
+        <text class="note" x="-150" y="6">lays thousands of eggs, dies</text>
+        <text class="note" x="-150" y="22">Male dies after mating</text>
+      </g>
+
+      <!-- centre -->
+      <text x="450" y="312" text-anchor="middle" class="stage" style="font-size:22px">Three-host cycle</text>
+      <text x="450" y="336" text-anchor="middle" class="note">3 hosts · 3 blood meals · 2 moults</text>
+      <text x="450" y="354" text-anchor="middle" class="note">Often 2–3 years in temperate climates</text>
+      <text x="450" y="378" text-anchor="middle" class="note" style="font-style:italic">Between meals, ticks wait on vegetation</text>
+      <text x="450" y="394" text-anchor="middle" class="note" style="font-style:italic">with front legs outstretched (“questing”)</text>
+    </svg>
+    <figcaption>Drawings are schematic, not to scale. The scutum is the hard dorsal shield that gives hard ticks their name: it covers only the front of the female’s back, so she can swell, but the whole of the male’s. Ticks are arachnids: larvae have 6 legs, and nymphs and adults have 8.</figcaption>
+  </figure>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Stage by stage</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Stage</th><th>Legs</th><th>Feeds</th><th>Leaves host to</th></tr></thead>
+          <tbody>
+            <tr><td>Egg</td><td>–</td><td>No</td><td>–</td></tr>
+            <tr><td>Larva</td><td>6</td><td>Once</td><td>Moult</td></tr>
+            <tr><td>Nymph</td><td>8</td><td>Once</td><td>Moult</td></tr>
+            <tr><td>Adult ♀</td><td>8</td><td>Once, engorges</td><td>Lay eggs, then die</td></tr>
+            <tr><td>Adult ♂</td><td>8</td><td>Little or none (varies)</td><td>Dies after mating</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Example: blacklegged tick (<i>Ixodes scapularis</i>). Cycle spans about 2 years; one clutch of about 1 500–3 000 eggs per female.</p>
+    </section>
+
+    <section class="panel">
+      <h2>One-host ticks: the cattle blue tick</h2>
+      <p style="margin:0">The blue tick (<i>Rhipicephalus (Boophilus) microplus</i>), a major cattle pest in South Africa, stays on one animal as larva, nymph and adult, moulting in place. Only the engorged female drops off to lay eggs.</p>
+      <ul>
+        <li>Time on host: about 23 days</li>
+        <li>Eggs per female: about 1 455 ± 435 (lab)</li>
+        <li>Egg to egg: about 65 ± 8 days at 28 °C, 80 % RH (lab)</li>
+      </ul>
+      <p class="conf">Lab values; the field cycle is longer and varies with season.</p>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Sources</h2>
+    <ul class="src">
+      <li><a href="https://capcvet.org/guidelines/ixodes-scapularis-and-ixodes-pacificus/">Companion Animal Parasite Council: <i>Ixodes scapularis</i> and <i>I. pacificus</i></a></li>
+      <li><a href="https://wisconsin-ticks.russell.wisc.edu/ixodes-scapularis-life-cycle/">University of Wisconsin: <i>Ixodes scapularis</i> life cycle</a></li>
+      <li><a href="https://biotaxa.org/saa/article/view/saa.23.6.12">Life cycle of <i>R. (B.) microplus</i> under laboratory conditions, <i>Systematic and Applied Acarology</i> 23(6)</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/28342429/">Non-parasitic life cycle of <i>R. (B.) microplus</i> in pastures, northern Argentina (PubMed 28342429)</a></li>
+    </ul>
+  </section>
+</main>
